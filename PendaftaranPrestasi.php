@@ -13,18 +13,21 @@ class PendaftaranPrestasi extends Pendaftaran {
         $this->tingkatPrestasi = $tingkatPrestasi;
     }
 
-    // Overriding Polimorfisme: Contoh Potongan Biaya 50% untuk Jalur Prestasi
+    /**
+     * Overriding Polimorfisme: Jalur Prestasi
+     * Total Biaya = biaya pendaftaran dasar dipotong Rp50.000
+     */
     public function hitungTotalBiaya() {
-        return $this->biayaPendaftaranDasar * 0.50;
+        return $this->biayaPendaftaranDasar - 50000;
     }
 
-    // Overriding Polimorfisme: Menampilkan fasilitas/informasi jalur prestasi
+    // Overriding Polimorfisme: Menampilkan informasi jalur prestasi
     public function tampilkanInfoJalur() {
         return "Prestasi: " . $this->jenisPrestasi . " (" . $this->tingkatPrestasi . ")";
     }
 
     /**
-     * Metode Query Spesifik: Mengambil data yang hanya relevan dengan jalur Prestasi
+     * Metode Query Spesifik: Mengambil data Jalur Prestasi
      */
     public static function getDaftarPrestasi($db) {
         $sql = "SELECT * FROM tabel_pendaftaran WHERE jalur_pendaftaran = 'Prestasi'";

@@ -8,24 +8,26 @@ class PendaftaranReguler extends Pendaftaran {
 
     // Constructor untuk memetakan data induk dan data spesifik reguler
     public function __construct($id_pendaftaran, $nama_calon, $asal_sekolah, $nilai_ujian, $biayaPendaftaranDasar, $pilihanProdi, $lokasiKampus) {
-        // Melempar parameter utama ke constructor abstract class Pendaftaran
         parent::__construct($id_pendaftaran, $nama_calon, $asal_sekolah, $nilai_ujian, $biayaPendaftaranDasar);
         $this->pilihanProdi = $pilihanProdi;
         $this->lokasiKampus = $lokasiKampus;
     }
 
-    // Overriding Polimorfisme: Jalur Reguler (Total Biaya = Biaya Dasar)
+    /**
+     * Overriding Polimorfisme: Jalur Reguler
+     * Total Biaya = Tarif standar murni tanpa biaya tambahan
+     */
     public function hitungTotalBiaya() {
         return $this->biayaPendaftaranDasar;
     }
 
-    // Overriding Polimorfisme: Menampilkan fasilitas/informasi jalur reguler
+    // Overriding Polimorfisme: Menampilkan informasi jalur reguler
     public function tampilkanInfoJalur() {
         return "Prodi: " . $this->pilihanProdi . " | Kampus: " . $this->lokasiKampus;
     }
 
     /**
-     * Metode Query Spesifik: Mengambil data yang hanya relevan dengan jalur Reguler
+     * Metode Query Spesifik: Mengambil data Jalur Reguler
      */
     public static function getDaftarReguler($db) {
         $sql = "SELECT * FROM tabel_pendaftaran WHERE jalur_pendaftaran = 'Reguler'";
@@ -41,7 +43,7 @@ class PendaftaranReguler extends Pendaftaran {
                     $row['nilai_ujian'], 
                     $row['biaya_pendaftaran_dasar'],
                     $row['pilihan_prodi'], 
-                    $row['lokasi_kampus'] // Sesuaikan nama kolom database Anda
+                    $row['lokasi_kampus']
                 );
             }
         }

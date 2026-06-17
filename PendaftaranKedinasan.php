@@ -2,7 +2,7 @@
 require_once 'Pendaftaran.php';
 
 class PendaftaranKedinasan extends Pendaftaran {
-    // Properti tambahan terenkapsulasi (private) - Menggunakan skIkatanDinas
+    // Properti tambahan terenkapsulasi (private) - Dikunci skIkatanDinas
     private $skIkatanDinas;
     private $instansiSponsor;
 
@@ -13,18 +13,21 @@ class PendaftaranKedinasan extends Pendaftaran {
         $this->instansiSponsor = $instansiSponsor;
     }
 
-    // Overriding Polimorfisme: Contoh Jalur Kedinasan Gratis / Biaya 0 karena Ditanggung Sponsor
+    /**
+     * Overriding Polimorfisme: Jalur Kedinasan
+     * Total Biaya = Dikenakan surcharge tambahan sebesar 25%
+     */
     public function hitungTotalBiaya() {
-        return 0;
+        return $this->biayaPendaftaranDasar * 1.25;
     }
 
-    // Overriding Polimorfisme: Menampilkan fasilitas/informasi jalur kedinasan
+    // Overriding Polimorfisme: Menampilkan informasi jalur kedinasan
     public function tampilkanInfoJalur() {
         return "Sponsor: " . $this->instansiSponsor . " | No SK: " . $this->skIkatanDinas;
     }
 
     /**
-     * Metode Query Spesifik: Mengambil data yang hanya relevan dengan jalur Kedinasan
+     * Metode Query Spesifik: Mengambil data Jalur Kedinasan
      */
     public static function getDaftarKedinasan($db) {
         $sql = "SELECT * FROM tabel_pendaftaran WHERE jalur_pendaftaran = 'Kedinasan'";
@@ -39,7 +42,7 @@ class PendaftaranKedinasan extends Pendaftaran {
                     $row['asal_sekolah'], 
                     $row['nilai_ujian'], 
                     $row['biaya_pendaftaran_dasar'],
-                    $row['sk_ikatan_dinas'], // Mengambil data kolom asli dari MySQL
+                    $row['sk_ikatan_dinas'], 
                     $row['instansi_sponsor']
                 );
             }
