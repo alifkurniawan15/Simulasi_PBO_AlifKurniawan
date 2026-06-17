@@ -29,13 +29,14 @@ class PendaftaranPrestasi extends Pendaftaran {
     /**
      * Metode Query Spesifik: Mengambil data Jalur Prestasi
      */
-    public static function getDaftarPrestasi($db) {
+public static function getDaftarPrestasi($db) {
         $sql = "SELECT * FROM tabel_pendaftaran WHERE jalur_pendaftaran = 'Prestasi'";
         $result = $db->conn->query($sql);
         
         $daftarObjek = [];
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+        // FIX PDO
+        if ($result) {
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 $daftarObjek[] = new self(
                     $row['id_pendaftaran'], 
                     $row['nama_calon'], 

@@ -29,13 +29,15 @@ class PendaftaranReguler extends Pendaftaran {
     /**
      * Metode Query Spesifik: Mengambil data Jalur Reguler
      */
-    public static function getDaftarReguler($db) {
+public static function getDaftarReguler($db) {
         $sql = "SELECT * FROM tabel_pendaftaran WHERE jalur_pendaftaran = 'Reguler'";
+        // Menggunakan query PDO
         $result = $db->conn->query($sql);
         
         $daftarObjek = [];
-        if ($result && $result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+        // FIX PDO: Mengambil semua data ke dalam array terlebih dahulu
+        if ($result) {
+            while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
                 $daftarObjek[] = new self(
                     $row['id_pendaftaran'], 
                     $row['nama_calon'], 
